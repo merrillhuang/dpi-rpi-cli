@@ -26,13 +26,24 @@ class RPSGameTest < Minitest::Test
   end
 
   def test_get_winner
-    assert_output(/The current player is Joe./) do
-      @game.change_player("Joe")
-    end
+    @game.change_player("Joe")
+
     assert_output(/It's a tie/) do
       @game.get_winner("Scissors", "Scissors")
     end
     choices = {"Wins" => 0, "Losses" => 0, "Ties" => 1}
+    assert_equal choices, @game.players[0].record, "Tie not added to record"
+
+    assert_output(/You lost.../) do
+      @game.get_winner("Scissors", "Rock")
+    end
+    choices = {"Wins" => 0, "Losses" => 1, "Ties" => 1}
+    assert_equal choices, @game.players[0].record, "Tie not added to record"
+
+    assert_output(/You won!/) do
+      @game.get_winner("Scissors", "Paper")
+    end
+    choices = {"Wins" => 1, "Losses" => 1, "Ties" => 1}
     assert_equal choices, @game.players[0].record, "Tie not added to record"
   end
 end
