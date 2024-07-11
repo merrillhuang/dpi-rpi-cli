@@ -1,7 +1,7 @@
 require_relative "player"
 
 class Game
-  attr_accessor :current_player
+  attr_accessor :current_player, :choices, :players
 
   def initialize()
     @choices = ["Rock", "Paper", "Scissors"]
